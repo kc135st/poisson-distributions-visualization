@@ -5,11 +5,17 @@ A simple Python tool to visualize Poisson distributions using ASCII art. This pr
 ## Features
 - Visualize Poisson distributions in a terminal-friendly format using ASCII art.
 
+## Install
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Example Usage
 
 To visualize a Poisson distribution with a lambda of `3.0`, use the following command:
 
-```
+```bash
 $ python poisson_visualization.py 3
 
 Poisson Distribution (lambda = 3.0):
@@ -29,7 +35,7 @@ x=12 | 0.0000
 ```
 
 You can run the tests using the following command:
-```
+```bash
 $ coverage run -m unittest test_script.py 
 
 ...
@@ -40,7 +46,7 @@ OK
 ```
 
 To generate the report, use:
-```
+```bash
 $ coverage report -m                     
 Name                       Stmts   Miss  Cover   Missing
 --------------------------------------------------------
@@ -49,3 +55,10 @@ test_script.py                49      1    98%   81
 --------------------------------------------------------
 TOTAL                         92      5    95%
 ```
+
+## References
+Poisson distribution formula
+
+$$
+P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+$$
