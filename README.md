@@ -8,7 +8,7 @@ A simple Python tool to visualize Poisson distributions using ASCII art. This pr
 ## Install
 
 ```bash
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 ## Example Usage
