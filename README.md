@@ -8,6 +8,10 @@ A simple Python tool to visualize Poisson distributions using ASCII art. This pr
 ## Install
 
 ```bash
+$ git clone https://github.com/kc135st/poisson-distributions-visualization.git
+$ cd poisson-distributions-visualization
+$ python -m venv venv
+$ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
