@@ -67,13 +67,14 @@ class TestPoissonDistribution(unittest.TestCase):
         self.assertAlmostEqual(poisson_distribution(2, 3), 0.1804, places=4)
 
     def test_plot_poisson_ascii(self):
-        lambda_value = 2
-        x = np.arange(0, 11)
-        y = [poisson_distribution(lambda_value, i) for i in x]
-        output_list = []
-        plot_poisson_ascii(x, y, lambda_value, output_list)
+        def run_plot_poisson_test(lambda_value, expected_output):
+            x = np.arange(0, 80)
+            y = [poisson_distribution(lambda_value, i) for i in x]
+            output_list = []
+            plot_poisson_ascii(x, y, lambda_value, output_list)
+            self.assertEqual(output_list, expected_output)
 
-        expected_output = [
+        expected_output_2 = [
             "\nPoisson Distribution (lambda = 2):\n",
             "x= 0 | 0.1353 *************\n",
             "x= 1 | 0.2707 ***************************\n",
@@ -85,10 +86,46 @@ class TestPoissonDistribution(unittest.TestCase):
             "x= 7 | 0.0034 \n",
             "x= 8 | 0.0009 \n",
             "x= 9 | 0.0002 \n",
-            "x=10 | 0.0000\n",
         ]
+        run_plot_poisson_test(2, expected_output_2)
 
-        self.assertEqual(output_list, expected_output)
+        expected_output_20_1 = [
+            "\nPoisson Distribution (lambda = 20.1):\n",
+            "x= 6 | 0.0002 \n",
+            "x= 7 | 0.0005 \n",
+            "x= 8 | 0.0012 \n",
+            "x= 9 | 0.0028 \n",
+            "x=10 | 0.0055 \n",
+            "x=11 | 0.0101 *\n",
+            "x=12 | 0.0169 *\n",
+            "x=13 | 0.0262 **\n",
+            "x=14 | 0.0376 ***\n",
+            "x=15 | 0.0504 *****\n",
+            "x=16 | 0.0633 ******\n",
+            "x=17 | 0.0748 *******\n",
+            "x=18 | 0.0835 ********\n",
+            "x=19 | 0.0884 ********\n",
+            "x=20 | 0.0888 ********\n",
+            "x=21 | 0.0850 ********\n",
+            "x=22 | 0.0777 *******\n",
+            "x=23 | 0.0679 ******\n",
+            "x=24 | 0.0568 *****\n",
+            "x=25 | 0.0457 ****\n",
+            "x=26 | 0.0353 ***\n",
+            "x=27 | 0.0263 **\n",
+            "x=28 | 0.0189 *\n",
+            "x=29 | 0.0131 *\n",
+            "x=30 | 0.0088 \n",
+            "x=31 | 0.0057 \n",
+            "x=32 | 0.0036 \n",
+            "x=33 | 0.0022 \n",
+            "x=34 | 0.0013 \n",
+            "x=35 | 0.0007 \n",
+            "x=36 | 0.0004 \n",
+            "x=37 | 0.0002 \n",
+            "x=38 | 0.0001 \n",
+        ]
+        run_plot_poisson_test(20.1, expected_output_20_1)
 
     def test_main(self):
         test_cases = [

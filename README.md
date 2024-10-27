@@ -53,8 +53,7 @@ x= 7 | 0.0216 **
 x= 8 | 0.0081 
 x= 9 | 0.0027 
 x=10 | 0.0008 
-x=11 | 0.0002 
-x=12 | 0.0000
+x=11 | 0.0002
 ```
 
 ## Testing
@@ -76,10 +75,10 @@ To generate the report, use:
 $ coverage report -m                     
 Name                       Stmts   Miss  Cover   Missing
 --------------------------------------------------------
-poisson_visualization.py      49      4    92%   77-81
-test_script.py                45      0   100%
+poisson_visualization.py      45      4    91%   71-75
+test_script.py                48      0   100%
 --------------------------------------------------------
-TOTAL                         94      4    96%
+TOTAL                         93      4    96%
 ```
 
 ## Tested Environment

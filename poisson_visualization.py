@@ -20,18 +20,12 @@ def poisson_distribution(lambda_value, k):
 
 def plot_poisson_ascii(x, y, lambda_value, output_list):
     output_list.append(f"\nPoisson Distribution (lambda = {lambda_value}):\n")
-    previous_prob = None
 
     for i, prob in enumerate(y):
-        # Skip probabilities below the minimum display limit
-        if prob < MIN_PROBABILITY_DISPLAY_LIMIT:
-            if previous_prob is None or previous_prob >= MIN_PROBABILITY_DISPLAY_LIMIT:
-                output_list.append(f"x={x[i]:2d} | 0.0000\n")
-        else:
+        if prob >= MIN_PROBABILITY_DISPLAY_LIMIT:
             # Display a star for each 0.01 in the probability
             stars = "*" * int(prob * 100)
             output_list.append(f"x={x[i]:2d} | {prob:.4f} {stars}\n")
-        previous_prob = prob
 
 
 def validate_lambda_value(args):
