@@ -11,6 +11,7 @@ A simple Python tool to visualize Poisson distributions using ASCII art. This pr
 
 - Python 3.12.7 or higher (recommended)
 - `git` and `pip` installed on your system
+
 > **Note**:
 > - This project has been tested on macOS and may not work on Windows.  
 > - Depending on your environment, you may need to use `python3` and `pip3` instead of `python` and `pip`.
@@ -75,10 +76,17 @@ To generate the report, use:
 $ coverage report -m                     
 Name                       Stmts   Miss  Cover   Missing
 --------------------------------------------------------
-poisson_visualization.py      45      4    91%   71-75
+poisson_visualization.py      46      4    91%   78-82
 test_script.py                48      0   100%
 --------------------------------------------------------
-TOTAL                         93      4    96%
+TOTAL                         94      4    96%
+```
+
+You can also check the code with strict type-checking using [mypy](https://mypy.readthedocs.io/):
+
+```bash
+$ mypy --strict poisson_visualization.py
+Success: no issues found in 1 source file
 ```
 
 ## Tested Environment
@@ -92,6 +100,7 @@ This project has been tested on the following environment:
   - BuildVersion:   22A380
 - **Python**
   - Python 3.12.7
+
 
 
 ## References

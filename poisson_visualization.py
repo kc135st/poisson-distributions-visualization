@@ -1,24 +1,29 @@
 import math
 import numpy as np
+from typing import List, Optional, Tuple
 
-
-MIN_PROBABILITY_DISPLAY_LIMIT = 0.0001
-ERROR_MSG_INVALID_LAMBDA = (
+MIN_PROBABILITY_DISPLAY_LIMIT: float = 0.0001
+ERROR_MSG_INVALID_LAMBDA: str = (
     "Error: The lambda value must be a numeric value between 1 and 50."
 )
 
 
 class LambdaValidationError(ValueError):
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         super().__init__(message)
-        self.message = message
+        self.message: str = message
 
 
-def poisson_distribution(lambda_value, k):
+def poisson_distribution(lambda_value: float, k: int) -> float:
     return (lambda_value**k) * math.exp(-lambda_value) / math.factorial(k)
 
 
-def plot_poisson_ascii(x, y, lambda_value, output_list):
+def plot_poisson_ascii(
+    x: np.ndarray[np.int_, np.dtype[np.int_]],
+    y: List[float],
+    lambda_value: float,
+    output_list: List[str],
+) -> None:
     output_list.append(f"\nPoisson Distribution (lambda = {lambda_value}):\n")
 
     for i, prob in enumerate(y):
@@ -28,7 +33,7 @@ def plot_poisson_ascii(x, y, lambda_value, output_list):
             output_list.append(f"x={x[i]:2d} | {prob:.4f} {stars}\n")
 
 
-def validate_lambda_value(args):
+def validate_lambda_value(args: Optional[List[Optional[str]]]) -> float:
     if not args or len(args) != 1 or args[0] is None:
         raise LambdaValidationError(ERROR_MSG_INVALID_LAMBDA)
 
@@ -42,16 +47,18 @@ def validate_lambda_value(args):
         raise LambdaValidationError(ERROR_MSG_INVALID_LAMBDA)
 
 
-def generate_poisson_distribution(lambda_value):
+def generate_poisson_distribution(
+    lambda_value: float,
+) -> Tuple[np.ndarray[np.int_, np.dtype[np.int_]], List[float]]:
     # For λ values 1 to 50, the Poisson probabilities are well-represented up to x = 80.
     # In this tool, only up to the 4th decimal place is displayed.
-    x = np.arange(0, 80)
-    y = [poisson_distribution(lambda_value, i) for i in x]
+    x: np.ndarray[np.int_, np.dtype[np.int_]] = np.arange(0, 80)
+    y: List[float] = [poisson_distribution(lambda_value, i) for i in x]
     return x, y
 
 
-def main(args=None):
-    output_list = []
+def main(args: Optional[List[Optional[str]]] = None) -> List[str]:
+    output_list: List[str] = []
 
     try:
         lambda_value = validate_lambda_value(args)
@@ -70,6 +77,6 @@ def main(args=None):
 if __name__ == "__main__":
     import sys
 
-    result = main(sys.argv[1:])
+    result = main([arg for arg in sys.argv[1:]])
     for line in result:
         print(line, end="")
