@@ -63,10 +63,9 @@ The project includes tests to validate input and ensure the correct calculation 
 
 ```bash
 $ coverage run -m unittest test_script.py 
-
-...
+......
 ----------------------------------------------------------------------
-Ran 3 tests in 0.002s
+Ran 6 tests in 0.001s
 
 OK
 ```
@@ -77,10 +76,10 @@ To generate the report, use:
 $ coverage report -m                     
 Name                       Stmts   Miss  Cover   Missing
 --------------------------------------------------------
-poisson_visualization.py      43      4    91%   66-69
-test_script.py                49      1    98%   81
+poisson_visualization.py      49      4    92%   77-81
+test_script.py                42      0   100%
 --------------------------------------------------------
-TOTAL                         92      5    95%
+TOTAL                         91      4    96%
 ```
 
 ## Tested Environment
