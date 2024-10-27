@@ -77,9 +77,9 @@ $ coverage report -m
 Name                       Stmts   Miss  Cover   Missing
 --------------------------------------------------------
 poisson_visualization.py      49      4    92%   77-81
-test_script.py                42      0   100%
+test_script.py                45      0   100%
 --------------------------------------------------------
-TOTAL                         91      4    96%
+TOTAL                         94      4    96%
 ```
 
 ## Tested Environment
