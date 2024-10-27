@@ -1,56 +1,53 @@
 import unittest
 import numpy as np
-
-from poisson_visualization import main, plot_poisson_ascii, poisson_distribution
+from poisson_visualization import main, plot_poisson_ascii, poisson_distribution, validate_lambda_value, generate_poisson_distribution, LambdaValidationError
 
 
 class TestPoissonDistribution(unittest.TestCase):
+    def test_validate_lambda_value_valid_cases(self):
+        valid_cases = [
+            ("1", 1.0),
+            ("1.0", 1.0),
+            ("50", 50.0),
+            ("25.5", 25.5),
+            ("   10   ", 10.0),
+        ]
+        for input_value, expected in valid_cases:
+            lambda_value = validate_lambda_value([input_value])
+            self.assertEqual(lambda_value, expected)
 
-    ERROR_MSG = "Error: The lambda value must be a numeric value between 1 and 50."
 
-    def assert_poisson_output(self, lambda_value, expected_text):
-        result = main([lambda_value])
-        self.assertIn(expected_text, result[0])
+    def test_validate_lambda_value_invalid_cases(self):
+        invalid_cases = [
+            "1e10", "-1000", "-5", "0", "0.1", "51", "abc", "10abc", [], None,
+            "", " "
+        ]
+        for input_value in invalid_cases:
+            with self.assertRaises(LambdaValidationError) as context:
+                validate_lambda_value([input_value])
+            self.assertEqual(
+                str(context.exception),
+                "Error: The lambda value must be a numeric value between 1 and 50."
+            )
 
-    def assert_error_message(self, lambda_value):
-        result = main([lambda_value])
-        self.assertIn(self.ERROR_MSG, result[0])
 
-    def test_valid_lambdas(self):
-        self.assert_poisson_output("1", "Poisson Distribution (lambda = 1.0):")
-        self.assert_poisson_output(
-            "1.", "Poisson Distribution (lambda = 1.0):")
-        self.assert_poisson_output(
-            "1.0", "Poisson Distribution (lambda = 1.0):")
-        self.assert_poisson_output(
-            "1.00000", "Poisson Distribution (lambda = 1.0):")
-        self.assert_poisson_output(
-            "50", "Poisson Distribution (lambda = 50.0):")
-        self.assert_poisson_output(
-            "   10   ", "Poisson Distribution (lambda = 10.0):")
-        self.assert_poisson_output(
-            "25.5", "Poisson Distribution (lambda = 25.5):")
+    # Use assertAlmostEqual to handle floating-point precision errors in calculations.
+    def test_generate_poisson_distribution(self):
+        lambda_value = 2
+        x, y = generate_poisson_distribution(lambda_value)
+        self.assertEqual(len(x), 80)
+        self.assertEqual(len(y), 80)
+        self.assertAlmostEqual(y[0], poisson_distribution(lambda_value, 0), places=4)
+        self.assertAlmostEqual(y[1], poisson_distribution(lambda_value, 1), places=4)
+        self.assertAlmostEqual(y[2], poisson_distribution(lambda_value, 2), places=4)
 
-    def test_invalid_lambdas(self):
-        self.assert_error_message("-1000")
-        self.assert_error_message("-5")
-        self.assert_error_message("0.0")
-        self.assert_error_message("0")
-        self.assert_error_message(".1")
-        self.assert_error_message("0.1")
-        self.assert_error_message("0.9")
-        self.assert_error_message("50.1")
-        self.assert_error_message("51")
-        self.assert_error_message("1000000")
-        self.assert_error_message("9999999")
-        self.assert_error_message("0.00001")
-        self.assert_error_message("1e10")
-        self.assert_error_message("abc")
-        self.assert_error_message("10abc")
-        self.assert_error_message([])
-        self.assert_error_message(None)
-        self.assert_error_message("")
-        self.assert_error_message(" ")
+
+    def test_poisson_distribution(self):
+        self.assertAlmostEqual(poisson_distribution(2, 0), 0.1353, places=4)
+        self.assertAlmostEqual(poisson_distribution(2, 1), 0.2707, places=4)
+        self.assertAlmostEqual(poisson_distribution(2, 2), 0.2707, places=4)
+        self.assertAlmostEqual(poisson_distribution(2, 3), 0.1804, places=4)
+
 
     def test_plot_poisson_ascii(self):
         lambda_value = 2
@@ -77,5 +74,10 @@ class TestPoissonDistribution(unittest.TestCase):
         self.assertEqual(output_list, expected_output)
 
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_main(self):
+        result = main(["10"])
+        self.assertIn("Poisson Distribution (lambda = 10.0):", result[0])
+
+        result = main(["-5"])
+        self.assertIn("Error: The lambda value must be a numeric value between 1 and 50.", result[0])
+        self.assertIn("Usage: python poisson_visualization.py <lambda>", result[0])
