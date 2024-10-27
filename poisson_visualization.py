@@ -1,12 +1,14 @@
 import math
 import numpy as np
 
+
 MIN_PROBABILITY_DISPLAY_LIMIT = 0.0001
-ERROR_MSG_INVALID_LAMBDA = "Error: The lambda value must be a numeric value between 1 and 50."
+ERROR_MSG_INVALID_LAMBDA = (
+    "Error: The lambda value must be a numeric value between 1 and 50."
+)
 
 
 class LambdaValidationError(ValueError):
-
     def __init__(self, message):
         super().__init__(message)
         self.message = message
@@ -27,7 +29,7 @@ def plot_poisson_ascii(x, y, lambda_value, output_list):
                 output_list.append(f"x={x[i]:2d} | 0.0000\n")
         else:
             # Display a star for each 0.01 in the probability
-            stars = '*' * int(prob * 100)
+            stars = "*" * int(prob * 100)
             output_list.append(f"x={x[i]:2d} | {prob:.4f} {stars}\n")
         previous_prob = prob
 
@@ -61,7 +63,8 @@ def main(args=None):
         lambda_value = validate_lambda_value(args)
     except LambdaValidationError as e:
         output_list.append(
-            e.message + "\nUsage: python poisson_visualization.py <lambda>\n")
+            e.message + "\nUsage: python poisson_visualization.py <lambda>\n"
+        )
         return output_list
 
     x, y = generate_poisson_distribution(lambda_value)
@@ -72,6 +75,7 @@ def main(args=None):
 
 if __name__ == "__main__":
     import sys
+
     result = main(sys.argv[1:])
     for line in result:
         print(line, end="")
