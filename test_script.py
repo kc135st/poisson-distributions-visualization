@@ -129,12 +129,15 @@ class TestPoissonDistribution(unittest.TestCase):
 
     def test_main(self):
         test_cases = [
-            (["5"], "Poisson Distribution (lambda = 5.0):"),
+            (["1"], "Poisson Distribution (lambda = 1.0):"),
             (["1.0001"], "Poisson Distribution (lambda = 1.0001):"),
+            (["5"], "Poisson Distribution (lambda = 5.0):"),
             (["49.9999"], "Poisson Distribution (lambda = 49.9999):"),
+            (["50"], "Poisson Distribution (lambda = 50.0):"),
             (["-5"], ERROR_MSG_INVALID_LAMBDA),
-            (["50.0001"], ERROR_MSG_INVALID_LAMBDA),
+            (["0"], ERROR_MSG_INVALID_LAMBDA),
             (["0.9999"], ERROR_MSG_INVALID_LAMBDA),
+            (["50.0001"], ERROR_MSG_INVALID_LAMBDA),
             (["abcde"], ERROR_MSG_INVALID_LAMBDA),
             ([], ERROR_MSG_INVALID_LAMBDA),
             ([None], ERROR_MSG_INVALID_LAMBDA),
