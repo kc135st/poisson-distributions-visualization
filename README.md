@@ -9,7 +9,7 @@ A simple Python tool to visualize Poisson distributions using ASCII art. This pr
 
 ## Prerequisites
 
-- Python 3.12.5 or higher (recommended)
+- Python 3.12.7 or higher (recommended)
 - `git` and `pip` installed on your system
 > **Note**:
 > - This project has been tested on macOS and may not work on Windows.  
@@ -93,7 +93,7 @@ This project has been tested on the following environment:
   - ProductVersion: 13.0
   - BuildVersion:   22A380
 - **Python**
-  - Python 3.12.5
+  - Python 3.12.7
 
 
 ## References

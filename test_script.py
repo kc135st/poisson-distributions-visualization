@@ -1,6 +1,13 @@
 import unittest
 import numpy as np
-from poisson_visualization import main, plot_poisson_ascii, poisson_distribution, validate_lambda_value, generate_poisson_distribution, LambdaValidationError
+from poisson_visualization import (
+    main,
+    plot_poisson_ascii,
+    poisson_distribution,
+    validate_lambda_value,
+    generate_poisson_distribution,
+    LambdaValidationError,
+)
 
 
 class TestPoissonDistribution(unittest.TestCase):
@@ -16,20 +23,28 @@ class TestPoissonDistribution(unittest.TestCase):
             lambda_value = validate_lambda_value([input_value])
             self.assertEqual(lambda_value, expected)
 
-
     def test_validate_lambda_value_invalid_cases(self):
         invalid_cases = [
-            "1e10", "-1000", "-5", "0", "0.1", "51", "abc", "10abc", [], None,
-            "", " "
+            "1e10",
+            "-1000",
+            "-5",
+            "0",
+            "0.1",
+            "51",
+            "abc",
+            "10abc",
+            [],
+            None,
+            "",
+            " ",
         ]
         for input_value in invalid_cases:
             with self.assertRaises(LambdaValidationError) as context:
                 validate_lambda_value([input_value])
             self.assertEqual(
                 str(context.exception),
-                "Error: The lambda value must be a numeric value between 1 and 50."
+                "Error: The lambda value must be a numeric value between 1 and 50.",
             )
-
 
     # Use assertAlmostEqual to handle floating-point precision errors in calculations.
     def test_generate_poisson_distribution(self):
@@ -41,13 +56,11 @@ class TestPoissonDistribution(unittest.TestCase):
         self.assertAlmostEqual(y[1], poisson_distribution(lambda_value, 1), places=4)
         self.assertAlmostEqual(y[2], poisson_distribution(lambda_value, 2), places=4)
 
-
     def test_poisson_distribution(self):
         self.assertAlmostEqual(poisson_distribution(2, 0), 0.1353, places=4)
         self.assertAlmostEqual(poisson_distribution(2, 1), 0.2707, places=4)
         self.assertAlmostEqual(poisson_distribution(2, 2), 0.2707, places=4)
         self.assertAlmostEqual(poisson_distribution(2, 3), 0.1804, places=4)
-
 
     def test_plot_poisson_ascii(self):
         lambda_value = 2
@@ -68,16 +81,18 @@ class TestPoissonDistribution(unittest.TestCase):
             "x= 7 | 0.0034 \n",
             "x= 8 | 0.0009 \n",
             "x= 9 | 0.0002 \n",
-            "x=10 | 0.0000\n"
+            "x=10 | 0.0000\n",
         ]
 
         self.assertEqual(output_list, expected_output)
-
 
     def test_main(self):
         result = main(["10"])
         self.assertIn("Poisson Distribution (lambda = 10.0):", result[0])
 
         result = main(["-5"])
-        self.assertIn("Error: The lambda value must be a numeric value between 1 and 50.", result[0])
+        self.assertIn(
+            "Error: The lambda value must be a numeric value between 1 and 50.",
+            result[0],
+        )
         self.assertIn("Usage: python poisson_visualization.py <lambda>", result[0])
