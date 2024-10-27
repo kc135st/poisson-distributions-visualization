@@ -9,6 +9,10 @@ from poisson_visualization import (
     LambdaValidationError,
 )
 
+ERROR_MSG_INVALID_LAMBDA = (
+    "Error: The lambda value must be a numeric value between 1 and 50."
+)
+
 
 class TestPoissonDistribution(unittest.TestCase):
     def test_validate_lambda_value_valid_cases(self):
@@ -87,12 +91,25 @@ class TestPoissonDistribution(unittest.TestCase):
         self.assertEqual(output_list, expected_output)
 
     def test_main(self):
-        result = main(["10"])
-        self.assertIn("Poisson Distribution (lambda = 10.0):", result[0])
+        test_cases = [
+            (["5"], "Poisson Distribution (lambda = 5.0):"),
+            (["1.0001"], "Poisson Distribution (lambda = 1.0001):"),
+            (["49.9999"], "Poisson Distribution (lambda = 49.9999):"),
+            (["-5"], ERROR_MSG_INVALID_LAMBDA),
+            (["50.0001"], ERROR_MSG_INVALID_LAMBDA),
+            (["0.9999"], ERROR_MSG_INVALID_LAMBDA),
+            (["abcde"], ERROR_MSG_INVALID_LAMBDA),
+            ([], ERROR_MSG_INVALID_LAMBDA),
+            ([None], ERROR_MSG_INVALID_LAMBDA),
+            (["1", "2"], ERROR_MSG_INVALID_LAMBDA),
+        ]
 
-        result = main(["-5"])
-        self.assertIn(
-            "Error: The lambda value must be a numeric value between 1 and 50.",
-            result[0],
-        )
-        self.assertIn("Usage: python poisson_visualization.py <lambda>", result[0])
+        for args, expected_message in test_cases:
+            result = main(args)
+            if expected_message.startswith("Error:"):
+                self.assertIn(expected_message, result[0])
+                self.assertIn(
+                    "Usage: python poisson_visualization.py <lambda>", result[0]
+                )
+            else:
+                self.assertIn(expected_message, result[0])
